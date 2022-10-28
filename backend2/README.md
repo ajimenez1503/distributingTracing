@@ -1,8 +1,8 @@
-# Backend 1
+# Backend 2
 Simple backend in Java 11 - Spring.
 
 # Enpoint
-- `GET /hello1`
+- `GET /hello2`
 
 # Compile
 ```
@@ -16,5 +16,5 @@ mvn spring-boot:run
 
 # Tested
 ```
-curl http://127.0.0.1:8081/hello1
+curl http://127.0.0.1:8082/hello2
 ```
