@@ -35,13 +35,17 @@ services:
     image: "docker.elastic.co/apm/apm-server:7.7.1"
     ports:
       - "8200:8200"
-    environment:
-      - output.elasticsearch.hosts=['http://elasticsearch:9200']
-      - apm-server.host="0.0.0.0:8200"
-      - apm-server.secret_token="xxVpmQB2HMzCL9PgBHVrnxjNXXw5J7bd79DFm6sjBJR5HPXDhcF8MSb3vv4bpg44"
-      - setup.kibana.host="kibana:5601"
-      - setup.template.enabled=true
-      - logging.to_files=false
+    command: >
+       apm-server -e
+         -E output.elasticsearch.hosts=['http://elasticsearch:9200']
+         -E apm-server.host="0.0.0.0:8200"
+         -E apm-server.secret_token="xxVpmQB2HMzCL9PgBHVrnxjNXXw5J7bd79DFm6sjBJR5HPXDhcF8MSb3vv4bpg44"
+         -E setup.kibana.host="kibana:5601"
+         -E setup.template.enabled=true
+         -E logging.to_files=false
+         -E apm-server.rum.enabled=true
+         -E apm-server.rum.allow_origins=['*']
+         -E apm-server.auth.anonymous.allow_service=["frontend"]
     depends_on:
       elasticsearch:
         condition: service_healthy
