@@ -29,6 +29,8 @@ export class AppModule {
       serverUrl: 'http://localhost:8200',
       environment: 'dev',
       logLevel: 'trace',
+      distributedTracing: true,
+      distributedTracingOrigins: ['http://localhost:4200','http://127.0.0.1:8081']
     })
   }
 
