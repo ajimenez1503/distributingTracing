@@ -11,7 +11,6 @@ npm install -g @angular/cli
 ng new hello-world
 cd hello-world
 ng generate component HelloWorld
-
 ```
 
 # Run
