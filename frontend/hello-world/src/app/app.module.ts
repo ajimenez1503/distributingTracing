@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { ApmModule, ApmService } from '@elastic/apm-rum-angular'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HelloWorldComponent } from './hello-world/hello-world.component';
+import {
+  OpenTelemetryInterceptorModule,
+  CompositePropagatorModule,
+  OtelColExporterModule,
+} from '@jufab/opentelemetry-angular-interceptor';
 
 @NgModule({
   declarations: [
@@ -16,23 +20,25 @@ import { HelloWorldComponent } from './hello-world/hello-world.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ApmModule
+    OpenTelemetryInterceptorModule.forRoot({
+      commonConfig: {
+        console: true, // Display trace on console (only in DEV env)
+        production: false, // Send Trace with BatchSpanProcessor (true) or SimpleSpanProcessor (false)
+        serviceName: 'frontend', // Service name send in trace
+        probabilitySampler: '1',
+      },
+      otelcolConfig: {
+        url: 'http://127.0.0.1:4318/v1/traces', // URL of opentelemetry collector
+      },
+    }),
+    //Insert OtelCol exporter module
+    OtelColExporterModule,
+    //Insert propagator module
+    CompositePropagatorModule,
   ],
-  providers: [ApmService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(service: ApmService) {
-    // Agent API is exposed through this apm instance
-    const apm = service.init({
-      serviceName: 'frontend',
-      serverUrl: 'http://localhost:8200',
-      environment: 'dev',
-      logLevel: 'trace',
-      distributedTracing: true,
-      distributedTracingOrigins: ['http://localhost:4200','http://127.0.0.1:8081']
-    })
-  }
-
 
 }

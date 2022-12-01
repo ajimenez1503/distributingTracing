@@ -23,6 +23,7 @@ mvn spring-boot:run
 cd frontend/hello-world
 ng serve --open
 ```
+Open http://localhost:4200
 
 # Ref:
 - https://levelup.gitconnected.com/how-to-integrate-elastic-apm-java-agent-with-spring-boot-7ce8388a206e
